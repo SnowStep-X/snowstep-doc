@@ -1,0 +1,33 @@
+﻿---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import ArticleCard from '../../components/ArticleCard.astro'
+import { getAllArticles } from '../../lib/articles'
+
+export async function getStaticPaths() {
+  const all = await getAllArticles()
+  const set = new Set<string>()
+  for (const a of all) for (const t of a.data.tags) set.add(t)
+  return [...set].map(tag => ({ params: { tag } }))
+}
+
+const { tag } = Astro.params
+const all = await getAllArticles()
+const matched = all.filter(a => a.data.tags.includes(tag!))
+---
+<BaseLayout title={`#${tag} — SnowStep`}>
+  <section class="max-w-6xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-5xl mb-2">#{tag}</h1>
+    <p class="text-ink-mute mb-8">{matched.length} 篇文章</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {matched.map(a => (
+        <ArticleCard
+          title={a.data.title}
+          href={`/${a.slug}`}
+          type={a.data.type}
+          tags={a.data.tags}
+          date={a.data.updated}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

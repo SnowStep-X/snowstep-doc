@@ -1,0 +1,45 @@
+﻿---
+import BaseLayout from './BaseLayout.astro'
+import TableOfContents from '../components/TableOfContents.astro'
+import TagPill from '../components/TagPill.astro'
+import BacklinksPanel from '../components/BacklinksPanel.astro'
+import type { MarkdownHeading } from 'astro'
+import type { Article } from '../lib/articles'
+
+interface Props { article: Article; headings: MarkdownHeading[] }
+const { article, headings } = Astro.props
+const { data, slug } = article
+---
+<BaseLayout title={`${data.title} — SnowStep`} description={data.tags.join(', ')}>
+  <article class="max-w-6xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-12">
+    <div class="max-w-prose">
+      <header class="mb-10">
+        <div class="text-xs uppercase tracking-wider text-ink-mute mb-3 flex items-center gap-2">
+          <span>{data.type === 'note' ? '笔记' : '剪藏'}</span>
+          <span>·</span>
+          <a href="/tree" class="hover:text-accent">{data.category.join(' / ')}</a>
+        </div>
+        <h1 class="font-serif text-5xl tracking-tight leading-tight">{data.title}</h1>
+        {data.tags.length > 0 && (
+          <div class="flex gap-2 mt-4 flex-wrap">
+            {data.tags.map(t => <TagPill name={t} />)}
+          </div>
+        )}
+        {data.sourceUrl && (
+          <p class="text-sm text-ink-mute mt-4">
+            来源：<a href={data.sourceUrl} class="text-accent hover:underline" target="_blank" rel="noopener">{data.siteName ?? data.sourceUrl}</a>
+          </p>
+        )}
+      </header>
+      <div class="prose prose-lg">
+        <slot />
+      </div>
+      <BacklinksPanel slug={slug} />
+    </div>
+    <aside class="hidden lg:block">
+      <div class="sticky top-8">
+        <TableOfContents headings={headings} />
+      </div>
+    </aside>
+  </article>
+</BaseLayout>

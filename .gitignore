@@ -5,3 +5,6 @@ dist
 .DS_Store
 *.log
 
+
+# Astro generated
+apps/web/src/env.d.ts

@@ -2,16 +2,6 @@
     "name":  "@snowstep/web",
     "type":  "module",
     "version":  "0.0.0",
-    "dependencies":  {
-                         "@astrojs/react":  "^3.6.0",
-                         "@astrojs/tailwind":  "^5.1.0",
-                         "@snowstep/shared":  "workspace:*",
-                         "astro":  "^4.16.0",
-                         "react":  "^18.3.0",
-                         "react-dom":  "^18.3.0",
-                         "tailwindcss":  "^3.4.0",
-                         "zod":  "^3.23.0"
-                     },
     "scripts":  {
                     "dev":  "astro dev",
                     "build":  "astro build",
@@ -25,5 +15,23 @@
                             "typescript":  "^5.5.0",
                             "pagefind":  "^1.1.0",
                             "@tailwindcss/typography":  "^0.5.15"
-                        }
+                        },
+    "dependencies":  {
+                         "@astrojs/node":  "^8.3.4",
+                         "@astrojs/react":  "^3.6.0",
+                         "@astrojs/tailwind":  "^5.1.0",
+                         "@snowstep/shared":  "workspace:*",
+                         "@codemirror/state":  "^6.4.0",
+                         "@codemirror/view":  "^6.34.0",
+                         "@codemirror/commands":  "^6.7.0",
+                         "@codemirror/lang-markdown":  "^6.3.0",
+                         "@codemirror/language":  "^6.10.0",
+                         "astro":  "^4.16.0",
+                         "markdown-it":  "^14.1.0",
+                         "react":  "^18.3.0",
+                         "react-dom":  "^18.3.0",
+                         "shiki":  "^1.22.0",
+                         "tailwindcss":  "^3.4.0",
+                         "zod":  "^3.23.0"
+                     }
 }

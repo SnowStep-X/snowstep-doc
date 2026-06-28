@@ -1,1 +1,10 @@
-{"name": "snowstep_doc", "private": true, "packageManager": "pnpm@9.0.0", "scripts": {"dev": "pnpm --filter @snowstep/web dev", "build": "pnpm --filter @snowstep/web build", "preview": "pnpm --filter @snowstep/web preview"}}
+﻿{
+    "name":  "snowstep_doc",
+    "private":  true,
+    "packageManager":  "pnpm@9.0.0",
+    "scripts":  {
+                    "dev":  "pnpm --filter @snowstep/web dev",
+                    "build":  "pnpm --filter @snowstep/web build",
+                    "preview":  "pnpm --filter @snowstep/web preview"
+                }
+}

@@ -1,0 +1,11 @@
+﻿---
+interface Props { name: string; count?: number; active?: boolean }
+const { name, count, active } = Astro.props
+---
+<a
+  href={`/tags/${encodeURIComponent(name)}`}
+  class={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs border transition-colors ${active ? 'border-accent text-accent' : 'border-ink/20 hover:border-accent hover:text-accent'}`}
+>
+  <span>#{name}</span>
+  {count !== undefined && <span class="text-ink-mute">{count}</span>}
+</a>

@@ -34,3 +34,6 @@ code, pre, kbd, samp {
 
 ::selection { background: var(--accent); color: white; }
 
+
+@import './fonts.css';
+

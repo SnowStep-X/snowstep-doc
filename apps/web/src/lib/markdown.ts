@@ -1,4 +1,4 @@
-﻿import MarkdownIt from 'markdown-it'
+import MarkdownIt from 'markdown-it'
 import type { Highlighter } from 'shiki'
 
 const md = new MarkdownIt({ html: true, linkify: true, typographer: true })

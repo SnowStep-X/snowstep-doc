@@ -1,4 +1,4 @@
-﻿---
+---
 title: 欢迎来到 SnowStep
 type: note
 category: ["杂学"]

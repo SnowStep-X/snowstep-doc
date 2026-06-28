@@ -1,4 +1,4 @@
-﻿# M0-M5 Implementation Report
+# M0-M5 Implementation Report
 
 ## Status: code complete, runtime verification pending
 

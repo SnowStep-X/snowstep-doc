@@ -1,4 +1,4 @@
-﻿# SnowStep Doc — 个人学习知识库 · 设计文档
+# SnowStep Doc — 个人学习知识库 · 设计文档
 
 - 日期：2026-06-28
 - 作者：Codex（brainstorming 协作）

@@ -1,4 +1,4 @@
-﻿import type { CollectionEntry } from 'astro:content'
+import type { CollectionEntry } from 'astro:content'
 
 const WIKI_RE = /\[\[([^\]]+)\]\]/g
 

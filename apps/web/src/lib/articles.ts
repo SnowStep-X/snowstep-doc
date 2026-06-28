@@ -1,4 +1,4 @@
-﻿import { getCollection, type CollectionEntry } from 'astro:content'
+import { getCollection, type CollectionEntry } from 'astro:content'
 import { buildBacklinkIndex } from './wiki'
 
 export type Article = CollectionEntry<'articles'>

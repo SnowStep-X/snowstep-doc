@@ -1,4 +1,4 @@
-﻿{
+{
   "buildCommand": "pnpm --filter @snowstep/web build",
   "outputDirectory": "apps/web/dist",
   "framework": null,

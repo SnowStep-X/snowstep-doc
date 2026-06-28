@@ -1,4 +1,4 @@
-﻿export function fromCategoryPath(path: string[]): string {
+export function fromCategoryPath(path: string[]): string {
   return path.map(encodeURIComponent).join('/')
 }
 

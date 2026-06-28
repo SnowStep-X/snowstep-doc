@@ -1,4 +1,4 @@
-﻿import { defineCollection } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { Article } from '@snowstep/shared';
 
 const articles = defineCollection({

@@ -1,4 +1,4 @@
-﻿# Self-hosted web fonts
+# Self-hosted web fonts
 
 Drop the following woff2 files into this directory (do NOT commit them to git):
 

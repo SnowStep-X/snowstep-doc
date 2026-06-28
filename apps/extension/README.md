@@ -1,4 +1,4 @@
-﻿# Chrome / Edge MV3 extension (deferred to v0.5)
+# Chrome / Edge MV3 extension (deferred to v0.5)
 
 The clipping extension is **deferred** until the web app is stable. See `docs/superpowers/specs/2026-06-28-snowstep-doc-design.md` module M2 for the original scope.
 

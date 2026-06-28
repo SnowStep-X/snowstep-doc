@@ -1,4 +1,4 @@
-﻿---
+---
 title: 链接测试
 type: note
 category: ["杂学"]

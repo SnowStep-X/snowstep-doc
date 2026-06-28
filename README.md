@@ -1,4 +1,4 @@
-﻿# SnowStep Doc
+# SnowStep Doc
 
 个人学习知识库网站：自己写的笔记 + 从工具官网剪藏的文档，全部以 Markdown 存放在 Git 仓库里，由 Astro 静态构建，部署到 Vercel。
 

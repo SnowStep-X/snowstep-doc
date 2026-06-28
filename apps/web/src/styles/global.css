@@ -37,3 +37,10 @@ code, pre, kbd, samp {
 
 @import './fonts.css';
 
+
+.cm-wiki-link {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-radius: 3px;
+  padding: 0 2px;
+}

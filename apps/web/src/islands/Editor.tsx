@@ -1,9 +1,34 @@
 ﻿import { useEffect, useRef, useState } from 'react'
 import { EditorState } from '@codemirror/state'
-import { EditorView, keymap, lineNumbers, highlightActiveLine } from '@codemirror/view'
+import {
+  EditorView,
+  keymap,
+  lineNumbers,
+  highlightActiveLine,
+  Decoration,
+  ViewPlugin,
+  ViewUpdate,
+  MatchDecorator,
+} from '@codemirror/view'
 import { defaultKeymap, history, historyKeymap } from '@codemirror/commands'
 import { markdown } from '@codemirror/lang-markdown'
 import { renderPreview } from '../lib/markdown'
+
+const wikiMatcher = new MatchDecorator({
+  regexp: /\[\[([^\]]+)\]\]/g,
+  decoration: () => Decoration.mark({ class: 'cm-wiki-link' }),
+})
+
+const wikiPlugin = ViewPlugin.fromClass(
+  class {
+    decorations = Decoration.none
+    constructor(view: EditorView) { this.decorations = wikiMatcher.createDeco(view) }
+    update(u: ViewUpdate) {
+      if (u.docChanged || u.viewportChanged) this.decorations = wikiMatcher.createDeco(u.view)
+    }
+  },
+  { decorations: v => v.decorations }
+)
 
 interface Props {
   initial?: string
@@ -26,6 +51,7 @@ export default function Editor({ initial = '', onChange }: Props) {
         highlightActiveLine(),
         keymap.of([...defaultKeymap, ...historyKeymap]),
         markdown(),
+        wikiPlugin,
         EditorView.lineWrapping,
         EditorView.updateListener.of((u) => {
           if (u.docChanged) {

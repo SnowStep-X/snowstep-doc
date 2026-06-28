@@ -17,6 +17,5 @@ module.exports = {
       maxWidth: { prose: '720px' },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }
-

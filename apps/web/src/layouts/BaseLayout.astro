@@ -2,6 +2,7 @@
 import '../styles/global.css'
 import TopNav from '../components/TopNav.astro'
 import Footer from '../components/Footer.astro'
+import CommandPalette from '../islands/CommandPalette.tsx'
 
 interface Props {
   title: string
@@ -24,6 +25,7 @@ const { title, description = 'Personal learning knowledge base' } = Astro.props
       <slot />
     </main>
     <Footer />
+    <CommandPalette client:load />
     <script is:inline>
       const stored = localStorage.getItem('theme')
       if (stored === 'dark' || (!stored && matchMedia('(prefers-color-scheme: dark)').matches)) {

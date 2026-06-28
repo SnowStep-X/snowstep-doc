@@ -1,0 +1,37 @@
+﻿---
+import type { Article } from '../lib/articles'
+
+interface Props { node: any; depth: number }
+const { node, depth } = Astro.props
+const sortedChildren = [...node.children.values()].sort((a: any, b: any) =>
+  a.name.localeCompare(b.name, 'zh-CN')
+)
+---
+<li class="my-1">
+  <details open={depth < 1} class="group">
+    <summary class="cursor-pointer font-medium flex items-center gap-2 py-1 hover:text-accent">
+      <span class="text-ink-mute text-xs group-open:rotate-90 transition-transform inline-block">▸</span>
+      <span>{node.name}</span>
+      <span class="text-ink-mute text-xs">({node.articles.length})</span>
+    </summary>
+    {node.articles.length > 0 && (
+      <ul class="ml-5 mt-1 border-l border-ink/10 pl-4 space-y-1">
+        {node.articles.map((a: Article) => (
+          <li>
+            <a href={`/${a.slug}`} class="text-sm hover:text-accent flex items-center gap-2">
+              <span class="text-ink-mute text-xs">{a.data.type === 'note' ? '·' : '⌘'}</span>
+              <span>{a.data.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+    {sortedChildren.length > 0 && (
+      <ul class="ml-5 mt-1 border-l border-ink/10 pl-4 space-y-1">
+        {sortedChildren.map((child: any) => (
+          <Astro.self node={child} depth={depth + 1} />
+        ))}
+      </ul>
+    )}
+  </details>
+</li>

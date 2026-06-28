@@ -1,0 +1,12 @@
+﻿---
+import TreeNode from './TreeNode.astro'
+
+interface Props { node: any }
+const { node } = Astro.props
+const sortedChildren = [...node.children.values()].sort((a: any, b: any) =>
+  a.name.localeCompare(b.name, 'zh-CN')
+)
+---
+<ul class="space-y-1">
+  {sortedChildren.map((child: any) => <TreeNode node={child} depth={0} />)}
+</ul>

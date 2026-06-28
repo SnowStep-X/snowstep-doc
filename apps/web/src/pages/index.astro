@@ -7,29 +7,49 @@ const all = await getCollection('articles', ({ data }) => !data.private)
 const recent = all
   .sort((a, b) => +new Date(b.data.updated) - +new Date(a.data.updated))
   .slice(0, 6)
+const featured = recent[0]
+const rest = recent.slice(1)
 ---
 <BaseLayout title="SnowStep — 个人学习知识库">
-  <section class="max-w-6xl mx-auto px-6 pt-24 pb-16">
-    <h1 class="font-serif text-6xl md:text-8xl tracking-tighter leading-[0.95]">
+  <section class="max-w-6xl mx-auto px-6 pt-28 pb-20">
+    <p class="text-sm uppercase tracking-[0.3em] text-ink-mute mb-6">Personal Knowledge Base</p>
+    <h1 class="font-serif text-[clamp(3rem,9vw,7.5rem)] tracking-tighter leading-[0.9]">
       慢慢记<br/>
-      <span class="text-accent">下每一次成长</span>
+      <span class="text-accent italic">下每一次成长</span>
     </h1>
-    <p class="mt-6 text-lg text-ink-mute max-w-prose">
+    <p class="mt-8 text-lg text-ink-mute max-w-prose">
       这里收集我自己的笔记，以及从各工具官网剪藏下来的文档。一个搜索框找全。
     </p>
-  </section>
-  <section class="max-w-6xl mx-auto px-6 pb-24">
-    <h2 class="font-serif text-3xl mb-8">最近更新</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {recent.map(a => (
-        <ArticleCard
-          title={a.data.title}
-          href={`/${a.slug}`}
-          type={a.data.type}
-          tags={a.data.tags}
-          date={a.data.updated}
-        />
-      ))}
+    <div class="mt-10 flex gap-3">
+      <a href="/tree" class="px-5 py-2.5 rounded-full bg-ink text-paper dark:bg-paper dark:text-ink text-sm hover:bg-accent transition-colors">浏览分类</a>
+      <a href="/edit" class="px-5 py-2.5 rounded-full border border-ink/20 text-sm hover:border-accent transition-colors">写一篇</a>
     </div>
   </section>
+  {featured && (
+    <section class="max-w-6xl mx-auto px-6 pb-12">
+      <a href={`/${featured.slug}`} class="group block relative rounded-2xl overflow-hidden border border-ink/10 hover:border-accent transition-colors">
+        <div class="p-10 md:p-16">
+          <div class="text-xs uppercase tracking-widest text-accent mb-3">最新文章</div>
+          <h2 class="font-serif text-4xl md:text-6xl tracking-tight group-hover:text-accent transition-colors">{featured.data.title}</h2>
+          <p class="mt-4 text-ink-mute max-w-prose">{featured.data.tags.map(t => `#${t}`).join(' ')}</p>
+        </div>
+      </a>
+    </section>
+  )}
+  {rest.length > 0 && (
+    <section class="max-w-6xl mx-auto px-6 pb-24">
+      <h2 class="font-serif text-3xl mb-8">更多内容</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {rest.map(a => (
+          <ArticleCard
+            title={a.data.title}
+            href={`/${a.slug}`}
+            type={a.data.type}
+            tags={a.data.tags}
+            date={a.data.updated}
+          />
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>

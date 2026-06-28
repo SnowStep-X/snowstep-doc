@@ -1,0 +1,18 @@
+﻿---
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import TagPill from '../../components/TagPill.astro'
+import { getAllArticles } from '../../lib/articles'
+
+const all = await getAllArticles()
+const counts = new Map<string, number>()
+for (const a of all) for (const t of a.data.tags) counts.set(t, (counts.get(t) ?? 0) + 1)
+const tags = [...counts.entries()].sort((a, b) => b[1] - a[1])
+---
+<BaseLayout title="标签 — SnowStep">
+  <section class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-5xl mb-8">标签</h1>
+    <div class="flex flex-wrap gap-2">
+      {tags.map(([name, count]) => <TagPill name={name} count={count} />)}
+    </div>
+  </section>
+</BaseLayout>

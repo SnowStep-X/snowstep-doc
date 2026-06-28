@@ -1,0 +1,27 @@
+﻿---
+const links = [
+  { href: '/tree', label: '分类' },
+  { href: '/tags', label: '标签' },
+  { href: '/about', label: '关于' },
+]
+---
+<header class="border-b border-ink/10">
+  <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="font-serif text-xl tracking-tight">SnowStep</a>
+    <nav class="flex items-center gap-6 text-sm">
+      {links.map(l => (
+        <a href={l.href} class="hover:text-accent transition-colors">{l.label}</a>
+      ))}
+      <button
+        id="theme-toggle"
+        class="ml-2 text-sm px-2 py-1 rounded border border-ink/20 hover:border-accent"
+        aria-label="切换主题">◐</button>
+    </nav>
+  </div>
+</header>
+<script>
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark')
+    localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light')
+  })
+</script>

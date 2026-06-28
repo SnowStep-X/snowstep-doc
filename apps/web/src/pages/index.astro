@@ -1,0 +1,35 @@
+﻿---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import ArticleCard from '../components/ArticleCard.astro'
+
+const all = await getCollection('articles', ({ data }) => !data.private)
+const recent = all
+  .sort((a, b) => +new Date(b.data.updated) - +new Date(a.data.updated))
+  .slice(0, 6)
+---
+<BaseLayout title="SnowStep — 个人学习知识库">
+  <section class="max-w-6xl mx-auto px-6 pt-24 pb-16">
+    <h1 class="font-serif text-6xl md:text-8xl tracking-tighter leading-[0.95]">
+      慢慢记<br/>
+      <span class="text-accent">下每一次成长</span>
+    </h1>
+    <p class="mt-6 text-lg text-ink-mute max-w-prose">
+      这里收集我自己的笔记，以及从各工具官网剪藏下来的文档。一个搜索框找全。
+    </p>
+  </section>
+  <section class="max-w-6xl mx-auto px-6 pb-24">
+    <h2 class="font-serif text-3xl mb-8">最近更新</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {recent.map(a => (
+        <ArticleCard
+          title={a.data.title}
+          href={`/${a.slug}`}
+          type={a.data.type}
+          tags={a.data.tags}
+          date={a.data.updated}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

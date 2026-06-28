@@ -1,0 +1,25 @@
+﻿---
+interface Props {
+  title: string
+  href: string
+  type: 'note' | 'clipped'
+  tags: string[]
+  excerpt?: string
+  date: string
+}
+const { title, href, type, tags, excerpt, date } = Astro.props
+---
+<a href={href} class="group block border border-ink/10 rounded-lg p-6 hover:border-accent transition-colors">
+  <div class="flex items-center gap-2 text-xs uppercase tracking-wider text-ink-mute mb-3">
+    <span>{type === 'note' ? '笔记' : '剪藏'}</span>
+    <span>·</span>
+    <time>{new Date(date).toLocaleDateString('zh-CN')}</time>
+  </div>
+  <h3 class="font-serif text-2xl mb-2 group-hover:text-accent transition-colors">{title}</h3>
+  {excerpt && <p class="text-ink-mute text-sm line-clamp-2">{excerpt}</p>}
+  {tags.length > 0 && (
+    <div class="flex gap-2 mt-4">
+      {tags.map(t => <span class="text-xs px-2 py-1 rounded bg-ink/5">#{t}</span>)}
+    </div>
+  )}
+</a>

@@ -1,0 +1,41 @@
+﻿---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+<BaseLayout title="搜索 — SnowStep">
+  <section class="max-w-3xl mx-auto px-6 py-16">
+    <h1 class="font-serif text-5xl mb-8">搜索</h1>
+    <input
+      id="search-input"
+      type="search"
+      placeholder="输入关键词，回车搜索…"
+      class="w-full text-lg border-b border-ink/20 bg-transparent py-3 focus:outline-none focus:border-accent"
+      autocomplete="off"
+    />
+    <div id="search-results" class="mt-8 space-y-4"></div>
+  </section>
+</BaseLayout>
+<script>
+  const input = document.getElementById('search-input') as HTMLInputElement
+  const out = document.getElementById('search-results') as HTMLDivElement
+
+  async function run(q: string) {
+    if (!q) { out.innerHTML = ''; return }
+    const pagefind = await import(/* @vite-ignore */ '/pagefind/pagefind.js')
+    const search = await pagefind.search(q)
+    const results = await Promise.all(search.results.slice(0, 20).map((r) => r.data()))
+    out.innerHTML = results.length
+      ? results.map((r) => `
+        <a href="${r.url}" class="block border-b border-ink/10 pb-4 hover:text-accent">
+          <h2 class="font-serif text-xl">${r.meta.title}</h2>
+          <p class="text-sm text-ink-mute mt-1">${r.excerpt.replace(/<[^>]+>/g, '').slice(0, 200)}</p>
+        </a>
+      `).join('')
+      : `<p class="text-ink-mute">没有找到匹配的结果。</p>`
+  }
+
+  let timer: number | undefined
+  input.addEventListener('input', () => {
+    clearTimeout(timer)
+    timer = window.setTimeout(() => run(input.value.trim()), 150)
+  })
+</script>

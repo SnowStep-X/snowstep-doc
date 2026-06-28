@@ -15,22 +15,32 @@ import BaseLayout from '../layouts/BaseLayout.astro'
   </section>
 </BaseLayout>
 <script>
+  const PAGEFIND_URL = '/pagefind/pagefind.js'
   const input = document.getElementById('search-input') as HTMLInputElement
   const out = document.getElementById('search-results') as HTMLDivElement
 
   async function run(q: string) {
     if (!q) { out.innerHTML = ''; return }
-    const pagefind = await import(/* @vite-ignore */ '/pagefind/pagefind.js')
-    const search = await pagefind.search(q)
-    const results = await Promise.all(search.results.slice(0, 20).map((r) => r.data()))
-    out.innerHTML = results.length
-      ? results.map((r) => `
-        <a href="${r.url}" class="block border-b border-ink/10 pb-4 hover:text-accent">
-          <h2 class="font-serif text-xl">${r.meta.title}</h2>
-          <p class="text-sm text-ink-mute mt-1">${r.excerpt.replace(/<[^>]+>/g, '').slice(0, 200)}</p>
-        </a>
-      `).join('')
-      : `<p class="text-ink-mute">没有找到匹配的结果。</p>`
+    try {
+      // @ts-ignore dynamic runtime import
+      const pagefind = await import(/* @vite-ignore */ PAGEFIND_URL)
+      const search = await pagefind.search(q)
+      const results = await Promise.all(search.results.slice(0, 20).map((r) => r.data()))
+      out.innerHTML = results.length
+        ? results.map((r) => `
+          <a href="${r.url}" class="block border-b border-ink/10 pb-4 hover:text-accent">
+            <h2 class="font-serif text-xl">${r.meta.title}</h2>
+            <p class="text-sm text-ink-mute mt-1">${r.excerpt.replace(/<[^>]+>/g, '').slice(0, 200)}</p>
+          </a>
+        `).join('')
+        : `<p class="text-ink-mute">没有找到匹配的结果。</p>`
+    } catch (err) {
+      out.innerHTML = `
+        <p class="text-ink-mute">
+          搜索索引在 dev 模式不可用。先运行 <code class="bg-ink/5 px-1 rounded">pnpm build</code> 一次，或在 <code class="bg-ink/5 px-1 rounded">pnpm preview</code> 模式下使用。
+        </p>
+      `
+    }
   }
 
   let timer: number | undefined

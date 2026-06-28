@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react'
 
+const PAGEFIND_URL = '/pagefind/pagefind.js'
+
 export default function CommandPalette() {
   const [open, setOpen] = useState(false)
   const [q, setQ] = useState('')
   const [hits, setHits] = useState<any[]>([])
+  const [status, setStatus] = useState<'idle' | 'loading' | 'no-index' | 'error'>('idle')
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -19,13 +22,28 @@ export default function CommandPalette() {
   }, [])
 
   useEffect(() => {
-    if (!open || !q) { setHits([]); return }
+    if (!open || !q) { setHits([]); setStatus('idle'); return }
     let cancelled = false
+    setStatus('loading')
     ;(async () => {
-      const pf = await import(/* @vite-ignore */ '/pagefind/pagefind.js')
-      const s = await pf.search(q)
-      const data = await Promise.all(s.results.slice(0, 8).map((r) => r.data()))
-      if (!cancelled) setHits(data)
+      try {
+        // Build the import specifier at runtime so Vite's static analysis cannot
+        // fail the dev build when pagefind is not yet generated.
+        const url = PAGEFIND_URL
+        // @ts-ignore dynamic runtime import
+        const pf = await import(/* @vite-ignore */ url)
+        const s = await pf.search(q)
+        const data = await Promise.all(s.results.slice(0, 8).map((r: any) => r.data()))
+        if (!cancelled) {
+          setHits(data)
+          setStatus('idle')
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setHits([])
+          setStatus('no-index')
+        }
+      }
     })()
     return () => { cancelled = true }
   }, [q, open])
@@ -48,7 +66,12 @@ export default function CommandPalette() {
           className="w-full px-5 py-4 text-lg bg-transparent border-b border-ink/10 focus:outline-none"
         />
         <ul className="max-h-80 overflow-y-auto">
-          {hits.map(h => (
+          {status === 'no-index' && (
+            <li className="px-5 py-4 text-ink-mute text-sm">
+              搜索索引在 dev 模式不可用。先 <code className="bg-ink/5 px-1 rounded">pnpm build</code> 一次，或在 <code className="bg-ink/5 px-1 rounded">pnpm preview</code> 模式下使用。
+            </li>
+          )}
+          {status === 'idle' && hits.map((h: any) => (
             <li key={h.url}>
               <a href={h.url} className="block px-5 py-3 hover:bg-ink/5">
                 <div className="font-serif">{h.meta.title}</div>
@@ -58,8 +81,8 @@ export default function CommandPalette() {
               </a>
             </li>
           ))}
-          {q && hits.length === 0 && (
-            <li className="px-5 py-4 text-ink-mute text-sm">没有匹配</li>
+          {status === 'loading' && (
+            <li className="px-5 py-4 text-ink-mute text-sm">搜索中…</li>
           )}
         </ul>
       </div>

@@ -18,6 +18,8 @@ const { data, slug } = article
           <span>{data.type === 'note' ? '笔记' : '剪藏'}</span>
           <span>·</span>
           <a href="/tree" class="hover:text-accent">{data.category.join(' / ')}</a>
+          <span>·</span>
+          <a href={`/edit?slug=${encodeURIComponent(slug)}`} class="hover:text-accent">编辑</a>
         </div>
         <h1 class="font-serif text-5xl tracking-tight leading-tight">{data.title}</h1>
         {data.tags.length > 0 && (

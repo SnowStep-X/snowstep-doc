@@ -1,16 +1,13 @@
 ---
-title: 欢迎来到 SnowStep
+title: "welcome"
 type: note
 category: ["杂学"]
-tags: ["meta"]
-created: 2026-06-28
-updated: 2026-06-28
+tags: ["demo"]
+created: 2026-06-29
+updated: 2026-06-29
 ---
 
-# 欢迎
+## welcome
+踏雪：欢迎来到我的世界
 
-这是你的第一篇笔记。试试：
-
-- 用 `[[welcome]]` 引用本页
-- 在分类下新增条目
-- 装上 Chrome 扩展一键剪藏工具文档
+在这里你可以记录你想要的一切
